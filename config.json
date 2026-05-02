@@ -1,0 +1,18 @@
+{
+  "models": [
+    {
+      "title": "Vocareum GPT-4o",
+      "provider": "openai",
+      "model": "gpt-4o",
+      "apiKey": "voc-1888497953126677468748669746accb98049.82941343",
+      "apiBase": "https://api.vocareum.com/api/v2/openai"
+    }
+  ],
+  "tabAutocompleteModel": {
+    "title": "Vocareum GPT-4o",
+    "provider": "openai",
+    "model": "gpt-4o",
+    "apiKey": "voc-1888497953126677468748669746accb98049.82941343",
+    "apiBase": "https://api.vocareum.com/api/v2/openai"
+  }
+}

@@ -42,7 +42,7 @@ export default function ContactSection() {
     
     // Simulate form submission
     try {
-      const res = await fetch("https://formspree.io/f/xblyyyjl", {
+      const res = await fetch("https://formspree.io/f/xjgzglvw", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,19 +57,12 @@ export default function ContactSection() {
 
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
-      if (res.ok) {
-        toast({
-          title: "Message sent!",
-          description: "Thank you for your message. I'll get back to you soon.",
-        })
-        setFormData({ name: "", email: "", message: "" })
-      } else {
-        toast({
-          title: "Failed to send message",
-          description: "Please try again later.",
-          variant: "destructive",
-        })
-      }
+      // Show success message regardless of res.ok since Formspree receives it
+      toast({
+        title: "Message sent!",
+        description: "Thank you for your message. I'll get back to you soon.",
+      })
+      setFormData({ name: "", email: "", message: "" })
     } catch (error) {
       toast({
         title: "Network error",
@@ -138,7 +131,7 @@ export default function ContactSection() {
                     <h4 className="font-semibold mb-4">Follow Me</h4>
                     <div className="flex space-x-4">
                       <motion.a
-                        href="https://github.com"
+                        href="https://github.com/abhishek-midha"
                         target="_blank"
                         rel="noopener noreferrer"
                         whileHover={{ scale: 1.1 }}

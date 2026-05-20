@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Filter, Star } from "lucide-react"
+import { Filter, Star, Github, ExternalLink } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -10,18 +10,20 @@ import { Badge } from "@/components/ui/badge"
 const projects = [
   {
     id: 1,
-    title: "E-commerce Automation Suite",
+    title: "E-commerce Test Automation Framework",
     description:
-      "Built a dual-framework automation suite to test a real-world e-commerce application using Selenium and Playwright. Validated login, product search, add to cart, and checkout flows while comparing execution speed, reliability, and maintainability.",
+      "Developed a production-style automation framework for e-commerce workflow validation using Playwright and TypeScript, simulating real QA automation practices with CI/CD integration.",
     highlights: [
-      "Designed a scalable Page Object Model framework",
-      "Implemented data-driven testing with JSON and Excel test data",
-      "Added parallel execution, cross-browser testing, and Cucumber BDD",
-      "Created reusable utilities, custom waits, and assertions",
+      "Automated login, cart, checkout, sorting, navigation, and end-to-end purchase workflows",
+      "Built modular Page Object Model framework for maintainability and scalability",
+      "Implemented dual CI pipelines: PR smoke suite and manually triggered full regression suite",
+      "Integrated Playwright reporting with execution artifacts for debugging and traceability",
+      "Enabled reusable locators, assertions, and utility-driven framework design",
     ],
-    tech: ["Java", "TestNG", "Cucumber", "Maven", "Playwright JS/TS"],
+    tech: ["Playwright", "TypeScript", "GitHub Actions", "Node.js", "CI/CD", "Playwright Reports"],
     category: "Automation",
-    image: "/inprogress.jpg",
+    image: "/projects/playwright-ecommerce.png",
+    github: "https://github.com/abhishek-midha/playwright-ecommerce-automation",
     featured: true,
   },
   {
@@ -34,6 +36,7 @@ const projects = [
       "Implemented JSON schema validation and response assertions",
       "Tested Bearer Token and API key authentication",
       "Chained API requests for end-to-end workflow validation",
+      "Created comprehensive test reports with detailed logs and failure analysis",
     ],
     tech: ["Java", "Rest Assured", "TestNG", "Postman", "JSON"],
     category: "API",
@@ -50,6 +53,7 @@ const projects = [
       "Implemented Page Object Model for maintainable test design",
       "Used XPath, ID, and Accessibility ID locators",
       "Handled gestures, waits, and dynamic elements",
+      "Executed tests on parallel devices with robust reporting and failure screenshots",
     ],
     tech: ["Java", "Appium", "TestNG", "Android Studio"],
     category: "Mobile",
@@ -177,8 +181,8 @@ export default function ProjectsSection() {
                     </motion.div>
                   )}
 
-                  <Card className="glass-card h-full glow-effect group overflow-hidden">
-                    <CardHeader className="p-0">
+                  <Card className="glass-card h-full glow-effect group overflow-hidden flex flex-col">
+                    <CardHeader className="p-0 relative">
                       <div className="relative overflow-hidden">
                         <img
                           src={project.image || "/placeholder.svg"}
@@ -186,17 +190,31 @@ export default function ProjectsSection() {
                           className="w-full h-48 object-cover rounded-t-2xl transition-transform duration-300 group-hover:scale-110"
                         />
 
-
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        
+                        {project.github && (
+                          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <a
+                              href={project.github}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-2 px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/80 transition-colors duration-200 backdrop-blur-sm"
+                              title="View on GitHub"
+                            >
+                              <Github className="h-4 w-4" />
+                              <span className="text-xs font-medium">GitHub</span>
+                            </a>
+                          </div>
+                        )}
                       </div>
                     </CardHeader>
-                    <CardContent className="p-6">
+                    <CardContent className="p-6 flex flex-col flex-grow">
                       <CardTitle className="mb-3 text-xl font-sans group-hover:gradient-text transition-all duration-300">
                         {project.title}
                       </CardTitle>
                       <p className="text-muted-foreground text-sm mb-4 font-sans">{project.description}</p>
 
-                      <ul className="space-y-2 mb-4 text-sm text-muted-foreground font-sans">
+                      <ul className="space-y-2 mb-4 text-sm text-muted-foreground font-sans flex-grow">
                         {project.highlights.map((highlight) => (
                           <li key={highlight} className="flex gap-2">
                             <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-cyan-500" />
@@ -205,7 +223,7 @@ export default function ProjectsSection() {
                         ))}
                       </ul>
 
-                      <div className="flex flex-wrap gap-2 mb-4">
+                      <div className="flex flex-wrap gap-2">
                         {project.tech.map((tech) => (
                           <Badge key={tech} variant="secondary" className="glass-card text-xs font-medium">
                             {tech}

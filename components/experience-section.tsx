@@ -1,9 +1,14 @@
 "use client"
 
+import { useEffect, useRef } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Briefcase, Calendar, CheckCircle } from "lucide-react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 
 const experiences = [
   {
@@ -67,8 +72,82 @@ const highlightVariants = {
 }
 
 export default function ExperienceSection() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const cardsContainerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    // Animate section title
+    const title = sectionRef.current.querySelector(".section-title")
+    gsap.fromTo(
+      title,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      }
+    )
+
+    // Animate experience cards
+    if (cardsContainerRef.current) {
+      const cards = cardsContainerRef.current.querySelectorAll("[data-exp-card]")
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 50, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.15,
+          duration: 0.8,
+          scrollTrigger: {
+            trigger: cardsContainerRef.current,
+            start: "top 75%",
+            toggleActions: "play none none none",
+          },
+        }
+      )
+    }
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+    }
+  }, [])
+
+  useEffect(() => {
+    // Add hover animation to highlight items
+    const highlights = document.querySelectorAll("[data-highlight]")
+    highlights.forEach(highlight => {
+      highlight.addEventListener("mouseenter", () => {
+        gsap.to(highlight, {
+          x: 10,
+          duration: 0.3,
+        })
+      })
+      highlight.addEventListener("mouseleave", () => {
+        gsap.to(highlight, {
+          x: 0,
+          duration: 0.3,
+        })
+      })
+    })
+
+    return () => {
+      highlights.forEach(highlight => {
+        highlight.removeEventListener("mouseenter", () => {})
+        highlight.removeEventListener("mouseleave", () => {})
+      })
+    }
+  }, [])
   return (
-    <section id="experience" className="py-20 relative overflow-hidden">
+    <section ref={sectionRef} id="experience" className="py-20 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 via-purple-400/5 to-pink-400/5 dark:from-blue-600/10 dark:via-purple-600/10 dark:to-pink-600/10" />
 
@@ -80,7 +159,7 @@ export default function ExperienceSection() {
           variants={containerVariants}
           className="max-w-5xl mx-auto"
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <motion.div variants={itemVariants} className="text-center mb-16 section-title">
             <h2 className="text-4xl sm:text-5xl font-bold font-sans mb-4">
               <span className="gradient-text">Professional Experience</span>
             </h2>
@@ -90,9 +169,9 @@ export default function ExperienceSection() {
           </motion.div>
 
           {/* Experience Timeline */}
-          <div className="space-y-8">
+          <div ref={cardsContainerRef} className="space-y-8">
             {experiences.map((exp, index) => (
-              <motion.div key={exp.id} variants={itemVariants}>
+              <motion.div key={exp.id} data-exp-card variants={itemVariants}>
                 <Card className="glass-card glow-effect overflow-hidden">
                   <CardHeader className="pb-4">
                     <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-2">
@@ -140,6 +219,7 @@ export default function ExperienceSection() {
                             key={idx}
                             variants={highlightVariants}
                             className="flex gap-3 items-start"
+                            data-highlight
                           >
                             <CheckCircle className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
                             <span className="text-muted-foreground text-sm leading-relaxed">{highlight}</span>

@@ -1,11 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Filter, Star, Github, ExternalLink } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+
+gsap.registerPlugin(ScrollTrigger)
 
 const projects = [
   {
@@ -111,12 +115,76 @@ const cardVariants = {
 
 export default function ProjectsSection() {
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const filteredProjects =
     selectedCategory === "All" ? projects : projects.filter((project) => project.category === selectedCategory)
 
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    // Animate section title
+    const title = sectionRef.current.querySelector(".section-title")
+    gsap.fromTo(
+      title,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          toggleActions: "play none none none",
+        },
+      }
+    )
+
+    // Animate filter buttons
+    const filterButtons = sectionRef.current.querySelectorAll("[data-filter-button]")
+    gsap.fromTo(
+      filterButtons,
+      { opacity: 0, scale: 0.8 },
+      {
+        opacity: 1,
+        scale: 1,
+        stagger: 0.05,
+        duration: 0.6,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 75%",
+          toggleActions: "play none none none",
+        },
+      }
+    )
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill())
+    }
+  }, [])
+
+  useEffect(() => {
+    // Animate project cards on filter change
+    if (containerRef.current) {
+      const cards = containerRef.current.querySelectorAll("[data-project-card]")
+      gsap.fromTo(
+        cards,
+        { opacity: 0, y: 30, scale: 0.9 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          stagger: 0.1,
+          duration: 0.6,
+          overwrite: "auto",
+        }
+      )
+    }
+  }, [selectedCategory])
+
   return (
-    <section id="projects" className="py-20 relative overflow-hidden">
+    <section ref={sectionRef} id="projects" className="py-20 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-br from-cyan-400/5 via-purple-400/5 to-pink-400/5 dark:from-cyan-600/10 dark:via-purple-600/10 dark:to-pink-600/10" />
 
@@ -127,7 +195,7 @@ export default function ProjectsSection() {
           viewport={{ once: true, margin: "-100px" }}
           variants={containerVariants}
         >
-          <motion.div variants={itemVariants} className="text-center mb-16">
+          <motion.div variants={itemVariants} className="text-center mb-16 section-title">
             <h2 className="text-4xl sm:text-5xl font-bold font-sans mb-4">
               <span className="gradient-text">Featured Projects</span>
             </h2>
@@ -139,7 +207,7 @@ export default function ProjectsSection() {
           {/* Filter Buttons */}
           <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-3 mb-12">
             {categories.map((category) => (
-              <motion.div key={category} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <motion.div key={category} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} data-filter-button>
                 <Button
                   variant={selectedCategory === category ? "default" : "outline"}
                   onClick={() => setSelectedCategory(category)}
@@ -153,13 +221,14 @@ export default function ProjectsSection() {
           </motion.div>
 
           {/* Projects Grid */}
-          <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div ref={containerRef} layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence mode="wait">
               {filteredProjects.map((project) => (
                 <motion.div
                   key={project.id}
                   layout
                   variants={cardVariants}
+                  data-project-card
                   initial="hidden"
                   animate="visible"
                   exit="exit"

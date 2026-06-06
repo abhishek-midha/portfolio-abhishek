@@ -1,30 +1,77 @@
-# Hi there, I’m **Keshav Awasthi** 👋
+# 🌐 Personal Portfolio Website
 
-I’m a **B.Tech student** and aspiring **ML/AI developer** from *Kanpur, Uttar Pradesh, India*. Passionate about building impactful web apps, exploring emerging technologies, and learning every day.
+Welcome to my personal portfolio repository! This project showcases my professional journey, technical skills, automation testing expertise, and featured projects in a clean and interactive web portfolio.
+
+## 🚀 About Me
+
+Hi, I'm **Abhishek Midha**, a **QA Automation Engineer** passionate about building robust test automation frameworks and ensuring software quality through efficient testing practices.
+
+I specialize in:
+- API Testing
+- Test Automation
+- UI Automation
+- Framework Development
+- Quality Assurance Best Practices
+
+## 🛠 Tech Stack
+
+This portfolio is built using:
+
+- HTML5
+- CSS3
+- JavaScript
+- Responsive Design
+- Git & GitHub
+
+## ✨ Features
+
+- Professional introduction and career overview
+- Technical skills showcase
+- Featured automation testing projects
+- Contact information & social links
+- Fully responsive design for desktop and mobile
+- Clean and user-friendly interface
+
+## 📂 Featured Projects
+
+### 🔹 E-Commerce Automation Framework
+Built a comprehensive automation suite for testing a real-world e-commerce application using:
+- Selenium WebDriver
+- Playwright
+- Java
+- TestNG
+- Maven
+- Page Object Model (POM)
+
+**Key Features:**
+- End-to-end UI automation
+- Cross-browser testing
+- Reusable test components
+- Scalable framework structure
+- Detailed reporting
+
+### 🔹 API Testing Framework
+Developed an API automation framework focused on validating REST APIs using:
+- Postman
+- Rest Assured
+- Java
+
+**Key Features:**
+- CRUD API validation
+- Authentication testing
+- Response schema validation
+- Data-driven testing
+- Collection automation
 
 
+## 🔗 Live Demo
 
-## 💻 Projects
+https://portfolio-abhishek-midha.vercel.app/
 
-### 📫 [Portfolio Website](https://portfolio-silk-ten-8mr1vzl19z.vercel.app/)
-A fully responsive, modern portfolio with:
-- Animated contact form (Framer Motion)
-- Email integration via Formspree
-- Dark/light mode with theme toggle
 
-## 📫 Let’s Connect!
+## 📬 Contact
 
-- 📧 Email: [keshavawasthi108@gmail.com](mailto:keshavawasthi108@gmail.com)  
-- 💼 LinkedIn: [keshav-awasthi](https://www.linkedin.com/in/keshav-awasthi-b1512b261/)  
-- 🐱 GitHub: [kTechKeshav](https://github.com/kTechKeshav)
+📧 Email: **abhishekmidha518@gmail.com**  
+💼 LinkedIn: **https://www.linkedin.com/in/abhishek-midha-qa/**  
 
----
-
-## ⚡ GitHub Stats
-
-![Keshav's GitHub stats](https://github-readme-stats.vercel.app/api?username=kTechKeshav&show_icons=true&theme=radical)
-
----
-
-*Made with ❤ *
 
